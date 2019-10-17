@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="data_title">
+        <item>Movie</item>
+        <item>TvShow</item>
+    </array>
+</resources>

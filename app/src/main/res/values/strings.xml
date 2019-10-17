@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MovieHoliday</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pengaturan">Setting</string>
+    <string name="filmliburan">MovieHoliday</string>
+    <string name="Rating">Rating</string>
+    <string name="Deskripsi">Decription</string>
+    <string name="Bahasa">Language</string>
+    <string name="Genre">Genre</string>
+    <string name="Tanggal">Date</string>
+    <string name="Judul">Title</string>
+    <string name="tvshow">TvShow</string>
+    <string name="movies">Movies</string>
+    <string name="Populer">Populer</string>
+    <string name="favorite">Favorite</string>
+</resources>

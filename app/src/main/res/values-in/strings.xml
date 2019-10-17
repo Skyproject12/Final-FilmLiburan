@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FilmLiburan</string>
+
+    <string name="hello_blank_fragment">Fragment Kosong</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="filmliburan">FilmLiburan</string>
+    <string name="Rating">Tingkatan</string>
+    <string name="Deskripsi">Deskripsi</string>
+    <string name="Bahasa">Bahasa</string>
+    <string name="Genre">Jenis</string>
+    <string name="Tanggal">Tanggal</string>
+    <string name="tvshow">Menampilkan TV</string>
+    <string name="movies">Film</string>
+    <string name="Judul">Judul</string>
+    <string name="Populer">Populer</string>
+</resources>
