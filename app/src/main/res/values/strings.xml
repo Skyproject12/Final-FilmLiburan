@@ -15,4 +15,7 @@
     <string name="movies">Movies</string>
     <string name="Populer">Populer</string>
     <string name="favorite">Favorite</string>
+    <string name="appwidget_text">Film Liburan</string>
+    <string name="empty_text">NO DATA</string>
+
 </resources>

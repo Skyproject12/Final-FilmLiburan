@@ -14,4 +14,7 @@
     <string name="movies">Film</string>
     <string name="Judul">Judul</string>
     <string name="Populer">Populer</string>
+    <string name="favorite">Favorite</string>
+    <string name="appwidget_text">Film Liburan</string>
+    <string name="empty_text">Tidak Data</string>
 </resources>

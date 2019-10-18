@@ -23,7 +23,7 @@ public class FavoriteHelper {
     private static DatabaseHelper databaseHelper;
     private static FavoriteHelper INSTANCE;
     private static SQLiteDatabase database;
-    private FavoriteHelper (Context context){
+    public FavoriteHelper(Context context){
         databaseHelper= new DatabaseHelper(context);
     }
 
@@ -46,6 +46,38 @@ public class FavoriteHelper {
             database.close();
         }
     }
+    public ArrayList<Movie> getAllFavoriteMovie(){
+        ArrayList<Movie> arrayList= new ArrayList<>();
+        Cursor cursor= database.query(DATABASE_MOVIE, null,
+                null,
+                null,
+                null,
+                null,
+                _ID + " ASC ",
+                null);
+        cursor.moveToFirst();
+        Movie movie;
+        if(cursor.getCount()>0){
+            do {
+                movie= new Movie();
+                movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn._ID)));
+                movie.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.DESKRIPSI)));
+                movie.setJudul(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.JUDUL)));
+                movie.setGambar(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.GAMBARPOPULE)));
+                movie.setPopuler(cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.POPULER)));
+                movie.setOriginalLanguege(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.ORIGINALLANGUAGE)));
+                movie.setGenre(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.GENRE)));
+                movie.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumn.RELEASEDATE)));
+
+                arrayList.add(movie);
+                cursor.moveToNext();
+
+            } while(!cursor.isAfterLast());
+        }
+        cursor.close();
+        return arrayList;
+    }
+
 
     public int deleteMovieById(String id){
         return database.delete(DATABASE_MOVIE, _ID+ " = ?", new String[]{id});
