@@ -51,7 +51,18 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
         switchHarian.setOnClickListener(this);
         switchUpdate.setOnClickListener(this);
         sharedPreferences= new NotificationPreference(this);
-        setSwitch();
+        if(sharedPreferences.getKlikHarian()){
+            switchHarian.setChecked(true);
+        }
+        else{
+            switchHarian.setChecked(false);
+        }
+        if(sharedPreferences.getKlikUpdate()){
+            switchUpdate.setChecked(true);
+        }
+        else{
+            switchUpdate.setChecked(false);
+        }
     }
 
     @Override
@@ -81,20 +92,6 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(this, "Reminder update tidak aktif", Toast.LENGTH_SHORT).show();
                 }
                 break;
-        }
-    }
-    private void setSwitch(){
-        if(sharedPreferences.getKlikHarian()){
-            switchHarian.setChecked(true);
-        }
-        else{
-            switchHarian.setChecked(false);
-        }
-        if(sharedPreferences.getKlikUpdate()){
-            switchUpdate.setChecked(true);
-        }
-        else{
-            switchUpdate.setChecked(false);
         }
     }
     public static void getNewRelease(final Context context){

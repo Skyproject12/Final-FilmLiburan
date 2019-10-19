@@ -62,7 +62,6 @@ public class TvShowFragment extends Fragment {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
         tvShowViewModel= ViewModelProviders.of(getActivity()).get(TvShowViewModel.class);
 
         tvShowViewModel.setTvshow();

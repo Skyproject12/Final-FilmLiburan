@@ -67,19 +67,15 @@ public class MoviesFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Movie");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         RecyclerView recyclerView= view.findViewById(R.id.recycler_movie);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter= new MovieAdapter();
+        recyclerView.setAdapter(adapter);
 
         movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
-        // mengambil nilai movie lalu di set ke adapter
         movieViewModel.getMovie().observe(getActivity(), getMovieList);
-        adapter= new MovieAdapter();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // mengeset nilai movie
         movieViewModel.setMovie();
         IntentToDetail();
         setHasOptionsMenu(true);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
         return view;
     }
 
