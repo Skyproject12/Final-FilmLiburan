@@ -17,5 +17,6 @@
     <string name="favorite">Favorite</string>
     <string name="appwidget_text">Film Liburan</string>
     <string name="empty_text">NO DATA</string>
+    <string name="pengingat">Reminder</string>
 
 </resources>

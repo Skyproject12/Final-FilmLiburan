@@ -62,11 +62,10 @@ public class TvShowFragment extends Fragment {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         tvShowViewModel= ViewModelProviders.of(getActivity()).get(TvShowViewModel.class);
 
         tvShowViewModel.setTvshow();
-        getProgress(true);
-        toolbar.setVisibility(View.INVISIBLE);
         tvShowViewModel.getTvshow().observe(getActivity(), getTvShowListr);
         IntentToDetailActivity();
         setHasOptionsMenu(true);
@@ -76,11 +75,11 @@ public class TvShowFragment extends Fragment {
     public Observer<ArrayList<TvShow>> getTvShowListr= new Observer<ArrayList<TvShow>>() {
         @Override
         public void onChanged(ArrayList<TvShow> tvShows) {
+            getProgress(true);
             if(tvShows!=null) {
                 adapter.setItem(tvShows);
                 if (adapter != null) {
                     getProgress(false);
-                    toolbar.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -109,7 +108,12 @@ public class TvShowFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if(newText.length()>0) {
+                    tvShowViewModel.searchJoker(newText);
+                }
+                else{
+                    tvShowViewModel.setTvshow();
+                }
                 return false;
             }
         });

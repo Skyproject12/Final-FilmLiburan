@@ -21,11 +21,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class TvShowViewModel extends ViewModel {
     public MutableLiveData<ArrayList<TvShow>> listShow= new MutableLiveData<>();
-    public ArrayList<TvShow> listItem= new ArrayList<>();
     public void setTvshow(){
+        final ArrayList<TvShow> listItem= new ArrayList<>();
         String KEY_NAME="412327d8b23a411e90711834b24fe08e";
         AsyncHttpClient client= new AsyncHttpClient();
-        Static listSame= new Static();
         String Url= "https://api.themoviedb.org/3/discover/tv?api_key=" + KEY_NAME + "&language=en-US";
 
         client.get(Url, new AsyncHttpResponseHandler() {
@@ -53,6 +52,37 @@ public class TvShowViewModel extends ViewModel {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.d("Failure", error.getMessage());
+            }
+        });
+    }
+    public void searchJoker(String joker){
+        final ArrayList<TvShow> listJoker= new ArrayList<>();
+        String KEY_NAME="412327d8b23a411e90711834b24fe08e";
+        AsyncHttpClient client= new AsyncHttpClient();
+        String Url="https://api.themoviedb.org/3/search/tv?api_key="+ KEY_NAME + "&language=en-US&query=" + joker;
+        client.get(Url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String result= new String(responseBody);
+                JSONObject responseJson= null;
+                try {
+                    responseJson= new JSONObject(result);
+                    JSONArray list= responseJson.getJSONArray("results");
+                    for (int i = 0; i <list.length() ; i++) {
+                        JSONObject tvshow= list.getJSONObject(i);
+                        TvShow show= new TvShow(tvshow);
+                        listJoker.add(show);
+                    }
+                    listShow.postValue(listJoker);
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
             }
         });
     }

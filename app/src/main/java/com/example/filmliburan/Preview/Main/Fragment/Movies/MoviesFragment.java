@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import com.example.filmliburan.Data.Model.Movie;
 import com.example.filmliburan.Data.Source.Local.DatabaseContract;
 import com.example.filmliburan.Data.Source.Remote.Movies.MovieViewModel;
 import com.example.filmliburan.Preview.Detail.DetailMovieActivity;
+import com.example.filmliburan.Preview.Pengingat.ReminderActivity;
 import com.example.filmliburan.R;
 
 import java.util.ArrayList;
@@ -63,33 +67,30 @@ public class MoviesFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Movie");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         RecyclerView recyclerView= view.findViewById(R.id.recycler_movie);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter= new MovieAdapter();
-        recyclerView.setAdapter(adapter);
-        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
-//        if(adapter!=null){
-//            getProgress(false);
-//        }
 
-        // mengeset nilai movie
-        movieViewModel.setMovie();
-        getProgress(true);
-        toolbar.setVisibility(View.INVISIBLE);
+        movieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
         // mengambil nilai movie lalu di set ke adapter
         movieViewModel.getMovie().observe(getActivity(), getMovieList);
+        adapter= new MovieAdapter();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // mengeset nilai movie
+        movieViewModel.setMovie();
         IntentToDetail();
         setHasOptionsMenu(true);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         return view;
     }
 
     public Observer<ArrayList<Movie>> getMovieList= new Observer<ArrayList<Movie>>(){
         @Override
         public void onChanged(ArrayList<Movie> movieslist){
+            getProgress(true);
             if(movieslist!=null){
                 adapter.setItems(movieslist);
                 if(adapter!=null) {
                     getProgress(false);
-                    toolbar.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -108,7 +109,6 @@ public class MoviesFragment extends Fragment {
         adapter.setOnItemCallback(new MovieAdapter.OnItemClickCallback() {
             @Override
             public void onItmCliked(Movie movie) {
-                String status="movie";
                 Intent intent= new Intent(getActivity(), DetailMovieActivity.class);
                 intent.putExtra("film",movie);
                 Uri currentMovie= ContentUris.withAppendedId(DatabaseContract.MovieColumn.CONTENT_URI, movie.getId());
@@ -132,7 +132,12 @@ public class MoviesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if(newText.length()>0) {
+                    movieViewModel.searchHeader(newText);
+                }
+                else{
+                    movieViewModel.setMovie();
+                }
                 return false;
             }
         });
@@ -144,6 +149,10 @@ public class MoviesFragment extends Fragment {
             case R.id.setting:
                 Intent intent= new Intent(Settings.ACTION_LOCALE_SETTINGS);
                 startActivity(intent);
+                break;
+            case R.id.pengingat:
+                Intent intentPengingat= new Intent(getActivity(), ReminderActivity.class);
+                startActivity(intentPengingat);
                 break;
         }
         return super.onOptionsItemSelected(item);
